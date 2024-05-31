@@ -1,26 +1,26 @@
+import '../App';
+
 type Props = {
   label: string;
   data: string;
-  placeholder: string;
-  type: string;
-  classTitle: string;
-  inputOnChange: (value: string) => void;
+  placeholder?: string;
+  type?: 'text' | 'number' | 'date';
+  onChange: (value: string) => void;
   value: string;
   errorMessage?: string;
 };
 
-export default function Form({
+export default function Field({
   placeholder,
   label,
   data,
   type,
-  classTitle,
-  inputOnChange,
+  onChange,
   value,
   errorMessage
 }: Props) {
   return (
-    <div className={classTitle}>
+    <div className='labelInput'>
       <label htmlFor={`${data}-id`}>{label}</label>
       <input
         className='inputBox'
@@ -28,7 +28,7 @@ export default function Form({
         id={`${data}-id`}
         placeholder={placeholder}
         onChange={e => {
-          inputOnChange(e.target.value);
+          onChange(e.target.value);
         }}
         value={value}
       ></input>

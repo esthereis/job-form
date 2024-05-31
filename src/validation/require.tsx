@@ -1,12 +1,13 @@
-type FormValue = Record<string, string | File>;
-type RequiredObjectType = Record<string, string | undefined>;
+import { FormError } from '../types/FormError';
 
-export default function require(datas: FormValue): RequiredObjectType {
-  const requiredErrors: RequiredObjectType = {};
+type FormValue = Record<string, string | File | undefined>;
 
-  for (const [key, value] of Object.entries(datas)) {
+export default function require(data: FormValue): FormError {
+  const requiredErrors: FormError = {};
+
+  for (const [key, value] of Object.entries(data)) {
     if (value === '' || !value) {
-      const errorObject: RequiredObjectType = { [key]: 'Element is required.' };
+      const errorObject: FormError = { [key]: 'Element is required.' };
       Object.assign(requiredErrors, errorObject);
     }
   }

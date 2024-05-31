@@ -2,7 +2,8 @@ import { FormData } from '../App';
 
 import require from './require';
 import pattern from './pattern';
-import formValidation from './formValidation';
+import file from './file';
+import fileError from './file';
 
 export default function validate({
   firstName,
@@ -10,36 +11,23 @@ export default function validate({
   number,
   email,
   position,
-  file
+  resume
 }: FormData) {
-  const requiredItems = require({
+  const requiredErrors = require({
     firstName,
     lastName,
     number,
     email,
     position,
-    file
+    resume
   });
 
-  const patternedItems = pattern({
+  const patternedErrors = pattern({
     number,
     email
   });
 
-  const validatedForm = formValidation({ file });
+  const fileErrors = fileError({ resume: resume as File });
 
-  if (Object.keys(requiredItems).length > 0) {
-    return requiredItems;
-  }
-  if (file) {
-    return validatedForm;
-  }
-  if (
-    Object.keys(requiredItems).length === 0 &&
-    Object.keys(patternedItems).length > 0
-  ) {
-    return patternedItems;
-  }
-
-  return {};
+  return { ...patternedErrors, ...requiredErrors, ...fileErrors };
 }

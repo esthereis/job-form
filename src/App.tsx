@@ -1,8 +1,8 @@
 import './App.css';
-import Form from './components/Form';
+import Field from './components/Field';
 import CitySelect from './components/CitySelect';
 import TextArea from './components/TextArea';
-import FileContainer from './components/FileContainer';
+import FileField from './components/FileField';
 
 import validation from './validation/validate';
 import { useState } from 'react';
@@ -10,13 +10,13 @@ import { useState } from 'react';
 export type FormData = {
   firstName: string;
   lastName: string;
-  cityAdress: string;
+  cityAddress: string;
   number: string;
   email: string;
   position: string;
   ingressDate: string;
   coverLetter: string;
-  file?: string | File;
+  resume?: string | File;
 };
 
 type FormErrors = {
@@ -27,13 +27,13 @@ export default function App() {
   const [inputData, setInputData] = useState<FormData>({
     firstName: '',
     lastName: '',
-    cityAdress: '',
+    cityAddress: '',
     number: '',
     email: '',
     position: '',
     ingressDate: '',
     coverLetter: '',
-    file: undefined
+    resume: undefined
   });
 
   const [validatedErrors, setValidatedErrors] = useState<FormErrors>({});
@@ -47,79 +47,63 @@ export default function App() {
       </p>
 
       <form className='formContainer'>
-        <Form
-          classTitle='labelInput'
+        <Field
           label='First Name:'
           data='firstName'
-          type='text'
-          placeholder=''
-          inputOnChange={firstName => setInputData({ ...inputData, firstName })}
+          onChange={firstName => setInputData({ ...inputData, firstName })}
           errorMessage={validatedErrors.firstName}
           value={inputData?.firstName}
         />
 
-        <Form
-          classTitle='labelInput'
+        <Field
           label='Last Name:'
           data='lastName'
-          type='text'
-          placeholder=''
-          inputOnChange={lastName => setInputData({ ...inputData, lastName })}
+          onChange={lastName => setInputData({ ...inputData, lastName })}
           errorMessage={validatedErrors.lastName}
           value={inputData?.lastName}
         />
 
         <CitySelect />
 
-        <Form
-          classTitle='labelInput'
+        <Field
           label='Number:'
           data='number'
-          type='text'
           placeholder='(00) 0000-0000'
-          inputOnChange={number => setInputData({ ...inputData, number })}
+          onChange={number => setInputData({ ...inputData, number })}
           errorMessage={validatedErrors.number}
           value={inputData?.number}
         />
-        <Form
-          classTitle='labelInput'
+        <Field
           label='E-mail:'
           data='email'
-          type='text'
           placeholder='ex: myname@example.com'
-          inputOnChange={email => setInputData({ ...inputData, email })}
+          onChange={email => setInputData({ ...inputData, email })}
           errorMessage={validatedErrors.email}
           value={inputData?.email}
         />
-        <Form
-          classTitle='labelInput'
+        <Field
           label='Applied Position:'
           data='position'
-          type='text'
-          placeholder=''
-          inputOnChange={position => setInputData({ ...inputData, position })}
+          onChange={position => setInputData({ ...inputData, position })}
           errorMessage={validatedErrors.position}
           value={inputData?.position}
         />
-        <Form
-          classTitle='labelInput'
+
+        <Field
           label='Earliest Possible Start Date:'
           data='ingressDate'
           type='date'
-          placeholder=''
-          inputOnChange={ingressDate =>
-            setInputData({ ...inputData, ingressDate })
-          }
+          onChange={ingressDate => setInputData({ ...inputData, ingressDate })}
           value={inputData?.ingressDate}
         />
 
         <TextArea />
-        <FileContainer
-          classTitle='labelInput'
-          fileOnChange={files => {
-            setInputData(inputData => ({ ...inputData, files }));
-            console.log(inputData);
-          }}
+
+        <FileField
+          label='Upload Resume:'
+          name='resume'
+          onChange={resume => setInputData({ ...inputData, resume })}
+          errorMessage={validatedErrors.resume}
         />
       </form>
       <button
